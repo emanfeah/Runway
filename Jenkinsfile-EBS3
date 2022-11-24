@@ -45,10 +45,10 @@ pipeline {
 
             }
 	} 
-        // stage ("Logout") {
-        //     steps {
-        //         sh 'sdocker logout'
-        //     }
+        stage ("Logout") {
+            steps {
+                sh 'docker logout'
+            }
     }
 
 
