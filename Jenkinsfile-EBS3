@@ -18,7 +18,7 @@ pipeline {
 		stage('Build') {
 
 			steps {
-				sh 'sudo docker build -t emanfeah/runway:latest .'
+				sh 'docker build -t emanfeah/runway:latest .'
 			}
 		}
 
@@ -32,7 +32,7 @@ pipeline {
 		stage('Push') {
 
 			steps {
-				sh 'sudo docker push emanfeah/runway:latest'
+				sh 'docker push emanfeah/runway:latest'
 			}
 		}
 
