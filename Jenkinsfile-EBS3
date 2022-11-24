@@ -9,7 +9,7 @@ pipeline {
 		ARTIFACT_NAME = 'Dockerrun.aws.json'
 		AWS_S3_BUCKET = 'emanahlotaibi-artifacts-123456'
 		AWS_EB_APP_NAME = 'runway'
-        AWS_EB_ENVIRONMENT_NAME = 'Runway-env'
+        AWS_EB_ENVIRONMENT_NAME = 'Runway-env-1'
         AWS_EB_APP_VERSION = "${BUILD_ID}"
 	}
 
