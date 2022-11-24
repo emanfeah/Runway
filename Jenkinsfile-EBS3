@@ -3,7 +3,7 @@ pipeline {
 	agent any
 
 	environment {
-		DOCKERHUB_CREDENTIALS=credentials('eman-dockerhub')
+		DOCKERHUB_CREDENTIALS = credentials('eman-dockerhub')
 		AWS_ACCESS_KEY_ID     = credentials('AWS_Access_KeyId')
   		AWS_SECRET_ACCESS_KEY = credentials('AWS_Secret_Key')
 		ARTIFACT_NAME = 'Dockerrun.aws.json'
@@ -18,21 +18,21 @@ pipeline {
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t emanfeah/runway:latest .'
+				sh 'sudo docker build -t emanfeah/runway:latest .'
 			}
 		}
 
 		stage('Login') {
 
 			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 			}
 		}
 
 		stage('Push') {
 
 			steps {
-				sh 'docker push emanfeah/runway:latest'
+				sh 'sudo docker push emanfeah/runway:latest'
 			}
 		}
 
@@ -45,10 +45,10 @@ pipeline {
 
             }
 	} 
-        stage ("Logout") {
-            steps {
-                sh 'docker logout'
-            }
+        // stage ("Logout") {
+        //     steps {
+        //         sh 'sdocker logout'
+        //     }
     }
 
 
