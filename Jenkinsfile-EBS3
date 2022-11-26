@@ -4,6 +4,8 @@ pipeline {
 
 	environment {
 		DOCKERHUB_CREDENTIALS = credentials('eman-dockerhub')
+		AWS_ACCESS_KEY_ID     = credentials('AWS_Access_KeyId')
+  		AWS_SECRET_ACCESS_KEY = credentials('AWS_Secret_Key')
 		ARTIFACT_NAME = 'Dockerrun.aws.json'
 		AWS_S3_BUCKET = 'emanahlotaibi-artifacts-123456'
 		AWS_EB_APP_NAME = 'runway'
