@@ -4,9 +4,11 @@ pipeline {
 
 	environment {
 		DOCKERHUB_CREDENTIALS = credentials('eman-dockerhub')
-		AWS_ACCESS_KEY_ID     = credentials('AWS_Access_KeyId')
-  		AWS_SECRET_ACCESS_KEY = credentials('AWS_Secret_Key')
-
+		ARTIFACT_NAME = 'Dockerrun.aws.json'
+		AWS_S3_BUCKET = 'emanahlotaibi-artifacts-123456'
+		AWS_EB_APP_NAME = 'runway'
+        AWS_EB_ENVIRONMENT_NAME = 'Runway-env-3'
+        AWS_EB_APP_VERSION = "${BUILD_ID}"
 	}
 
 	stages {
@@ -31,15 +33,17 @@ pipeline {
 				sh 'docker push emanfeah/runway:latest'
 			}
 		}
-		stage('Deploying App to Kubernetes') {
-         steps {
-           script {
-            kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "kubernetes")
-           }
-         }
-        }
 
-      
+        stage('Deploy') {
+            steps {
+                sh 'aws configure set region us-east-1	'
+                sh 'aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label $AWS_EB_APP_VERSION --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key=$ARTIFACT_NAME'
+				sh 'aws elasticbeanstalk update-environment --application-name $AWS_EB_APP_NAME --environment-name $AWS_EB_ENVIRONMENT_NAME --version-label $AWS_EB_APP_VERSION'
+				sh 'aws elasticbeanstalk update-environment --application-name $AWS_EB_APP_NAME --environment-name Runway-env-2 --version-label $AWS_EB_APP_VERSION'
+
+				
+            }
+	} 
         stage ("Logout") {
             steps {
                 sh 'docker logout'
